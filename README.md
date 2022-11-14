@@ -29,6 +29,6 @@ sudo yum install java-11-amazon-corretto-headless
 java -jar /home/ec2-user/web-0.0.1-SNAPSHOT.jar
 ~~~
 ### 画面URL
-http://52.68.155.58:8080/hello
+http://パブリック IPv4 アドレス:8080/hello
 ### アプリ停止する
 ctrl+c
