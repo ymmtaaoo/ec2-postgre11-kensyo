@@ -48,3 +48,46 @@ sudo chown postgres:postgres /postgre/wal_archive
 ~~~
 
 ## backup
+~~~
+#backupディレクトリを作成
+sudo mkdir /postgre/basebackup
+sudo chmod 700 /postgre/basebackup
+sudo chown postgres:postgres /postgre/basebackup
+
+sudo su - postgres
+pg_basebackup -D /postgre/basebackup/ -Ft -z -Xs -P -U postgres
+~~~
+
+## restore
+１．停止
+~~~
+sudo systemctl stop postgresql-11
+~~~
+２．PGDATA（最新WALログ）の退避
+~~~
+sudo mv /postgre/pgdata/ /postgre/pgdata.bak/
+sudo mkdir /postgre/pgdata
+sudo chmod 700 /postgre/pgdata
+sudo chown postgres:postgres /postgre/pgdata
+~~~
+３．ベースバックアップの復旧
+~~~
+tar xzfv /postgre/basebackup/base.tar.gz -C /postgre/pgdata
+~~~
+４．古いWALログの削除
+~~~
+rm -rf /postgre/pgdata/pg_wal
+~~~
+５．最新WALログの復旧
+~~~
+cp -p /postgre/pgdata.bak/pg_wal/ /postgre/pgdata/pg_wal/
+~~~
+６．リカバリ設定 vi /postgre/pgdata/recovery.conf
+~~~
+restore_command = 'gunzip < /postgre/wal_archive/%f > %p'
+#restore_command = 'cp /postgre/wal_archive/%f "%p"'
+~~~
+７．起動
+~~~
+sudo systemctl start postgresql-11
+~~~
