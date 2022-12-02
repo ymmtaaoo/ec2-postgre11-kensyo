@@ -34,3 +34,17 @@ java -jar /home/ec2-user/web-0.0.1-SNAPSHOT.jar
 http://パブリック IPv4 アドレス:8080/hello
 ### アプリ停止する⑤
 ctrl+c
+
+## wal archive log
+~~~
+#wal_archiveディレクトリを作成
+sudo mkdir /postgre/wal_archive
+
+#権限を変更
+sudo chmod 700 /postgre/wal_archive
+
+#wal_archiveディレクトリの管理者を変更
+sudo chown postgres:postgres /postgre/wal_archive
+~~~
+
+## backup
