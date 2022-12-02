@@ -90,4 +90,5 @@ restore_command = 'gunzip < /postgre/wal_archive/%f > %p'
 ７．起動
 ~~~
 sudo systemctl start postgresql-11
+
 ~~~
