@@ -95,11 +95,48 @@ sudo systemctl start postgresql-11
 
 ## postgresql.confのパラメータlog_filename検証
 ###①log_filename='postgresql-%a.log' (デフォルト)
+~~~
+-bash-4.2$ pwd
+/postgre/pgdata/log
+-bash-4.2$ ls -la
+total 32
+drwx------  2 postgres postgres  136 Dec  6 01:32 .
+drwx------ 20 postgres postgres 4096 Dec  6 01:32 ..
+-rw-------  1 postgres postgres 4368 Dec  2 11:51 postgresql-Fri.log
+-rw-------  1 postgres postgres 3800 Nov 14 09:38 postgresql-Mon.log
+-rw-------  1 postgres postgres 2522 Nov 10 08:45 postgresql-Thu.log
+-rw-------  1 postgres postgres  186 Dec  6 01:32 postgresql-Tue.log
+-rw-------  1 postgres postgres 5661 Nov  9 08:58 postgresql-Wed.log
+-bash-4.2$
+~~~
 
 ###②log_filename='postgresql-%Y%m%d.log'
 
+
 ## postgresql.confのパラメータlog_timezoneとtimezone検証
 ###①log_timezone = 'UTC', timezone = 'UTC' (デフォルト)
+ファイルの更新時間がずれている
+~~~
+-bash-4.2$ pwd
+/postgre/pgdata/log
+-bash-4.2$ ls -la
+total 32
+drwx------  2 postgres postgres  136 Dec  6 01:32 .
+drwx------ 20 postgres postgres 4096 Dec  6 01:32 ..
+-rw-------  1 postgres postgres 4368 Dec  2 11:51 postgresql-Fri.log
+-rw-------  1 postgres postgres 3800 Nov 14 09:38 postgresql-Mon.log
+-rw-------  1 postgres postgres 2522 Nov 10 08:45 postgresql-Thu.log
+-rw-------  1 postgres postgres  186 Dec  6 01:32 postgresql-Tue.log
+-rw-------  1 postgres postgres 5661 Nov  9 08:58 postgresql-Wed.log
+-bash-4.2$
+~~~
+
+~~~
+-bash-4.2$ cat postgresql-Tue.log
+2022-12-06 01:32:59.495 UTC [2959] LOG:  database system was shut down at 2022-12-02 11:51:11 UTC
+2022-12-06 01:32:59.517 UTC [2939] LOG:  database system is ready to accept connections
+-bash-4.2$
+~~~
 
 ###②log_timezone = 'Asia/Tokyo', timezone = 'UTC' 
 
