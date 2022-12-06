@@ -92,3 +92,17 @@ restore_command = 'gunzip < /postgre/wal_archive/%f > %p'
 sudo systemctl start postgresql-11
 
 ~~~
+
+## postgresql.confのパラメータlog_filename検証
+###①log_filename='postgresql-%a.log' (デフォルト)
+
+###②log_filename='postgresql-%Y%m%d.log'
+
+## postgresql.confのパラメータlog_timezoneとtimezone検証
+###①log_timezone = 'UTC', timezone = 'UTC' (デフォルト)
+
+###②log_timezone = 'Asia/Tokyo', timezone = 'UTC' 
+
+###③log_timezone = 'UTC', timezone = 'Asia/Tokyo' 
+
+###④log_timezone = 'Asia/Tokyo', timezone = 'Asia/Tokyo' 
