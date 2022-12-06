@@ -181,5 +181,8 @@ cat postgresql-20221206.logコマンドで確認
 ~~~
 登録データについても正常な時間で登録できていることを確認した。
 
+## postgresql.confのパラメータcheckpoint_timeoutとarchive_timeoutの動作確認
+### ①checkpoint_timeout = 5min, #archive_timeout = 0
 
+### ②checkpoint_timeout = 5min, archive_timeout = 5min
 
