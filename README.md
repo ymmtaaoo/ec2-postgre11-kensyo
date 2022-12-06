@@ -47,6 +47,21 @@ sudo chmod 700 /postgre/wal_archive
 sudo chown postgres:postgres /postgre/wal_archive
 ~~~
 
+### 案①ベースバックアップもアーカイブログも、current同士を使ってリカバリする手順
+/postgre/wal_archive/current/000000040000000000000019 ※直近
+/postgre/wal_archive/current/000000040000000000000018
+/postgre/wal_archive/20221205/000000040000000000000017 ※
+/postgre/wal_archive/20221205/000000040000000000000016
+/postgre/wal_archive/20221128/000000040000000000000015 ※
+/postgre/wal_archive/20221128/000000040000000000000014
+### 案②ベースバックアップはcurrentで、アーカイブログは混在でリカバリ。
+/postgre/wal_archive/current/000000040000000000000019 ※直近
+/postgre/wal_archive/current/000000040000000000000018
+/postgre/wal_archive/20221205/000000040000000000000017 ※
+/postgre/wal_archive/20221205/000000040000000000000016
+/postgre/wal_archive/20221128/000000040000000000000015 ※
+/postgre/wal_archive/20221128/000000040000000000000014
+
 ## backup
 ~~~
 #backupディレクトリを作成
