@@ -127,21 +127,32 @@ drwx------ 20 postgres postgres 4096 Dec  6 02:45 ..
 -bash-4.2$
 ~~~
 
+## postgresql.confのパラメータlog_line_prefix検証
+### ①log_line_prefix = '%m [%p] '
+ログ
+~~~
+-bash-4.2$ cat postgresql-20221206.log
+2022-12-06 12:02:51.227 JST [3697] LOG:  database system was shut down at 2022-12-06 12:02:51 JST
+2022-12-06 12:02:51.231 JST [3693] LOG:  database system is ready to accept connections
+-bash-4.2$
+~~~
+### ②log_line_prefix = '[%t] %u %d %p [%l] '
+ログ
+~~~
+
+~~~
+### ③log_line_prefix = '[%m] %u %d %p [%l] '
+ログ
+~~~
+
+~~~
+
 ## postgresql.confのパラメータlog_timezoneとtimezone検証
 ### ①log_timezone = 'UTC', timezone = 'UTC' (デフォルト)
-ログファイル作成時間、ログの中身の時間の表示も異常
+ログの時間の表示が異常
 ~~~
 -bash-4.2$ pwd
 /postgre/pgdata/log
--bash-4.2$ ls -la
-total 32
-drwx------  2 postgres postgres  136 Dec  6 01:32 .
-drwx------ 20 postgres postgres 4096 Dec  6 01:32 ..
--rw-------  1 postgres postgres 4368 Dec  2 11:51 postgresql-Fri.log
--rw-------  1 postgres postgres 3800 Nov 14 09:38 postgresql-Mon.log
--rw-------  1 postgres postgres 2522 Nov 10 08:45 postgresql-Thu.log
--rw-------  1 postgres postgres  186 Dec  6 01:32 postgresql-Tue.log
--rw-------  1 postgres postgres 5661 Nov  9 08:58 postgresql-Wed.log
 
 -bash-4.2$ cat postgresql-Tue.log
 2022-12-06 01:32:59.495 UTC [2959] LOG:  database system was shut down at 2022-12-02 11:51:11 UTC
@@ -149,68 +160,18 @@ drwx------ 20 postgres postgres 4096 Dec  6 01:32 ..
 -bash-4.2$
 ~~~
 
-### ②log_timezone = 'Asia/Tokyo', timezone = 'UTC' 
+
+### ②log_timezone = 'Asia/Tokyo', timezone = 'Asia/Tokyo' 
 ログファイル作成時間が異常だが、ログの中身の時間の表示は正常
 ~~~
 -bash-4.2$ pwd
 /postgre/pgdata/log
--bash-4.2$ ls -la
-total 36
-drwx------  2 postgres postgres  167 Dec  6 02:45 .
-drwx------ 20 postgres postgres 4096 Dec  6 02:45 ..
--rw-------  1 postgres postgres  188 Dec  6 02:45 postgresql-20221206.log 
--rw-------  1 postgres postgres 4368 Dec  2 11:51 postgresql-Fri.log
--rw-------  1 postgres postgres 3800 Nov 14 09:38 postgresql-Mon.log
--rw-------  1 postgres postgres 2522 Nov 10 08:45 postgresql-Thu.log
--rw-------  1 postgres postgres  774 Dec  6 02:45 postgresql-Tue.log
--rw-------  1 postgres postgres 5661 Nov  9 08:58 postgresql-Wed.log
-
--bash-4.2$ cat postgresql-20221206.log
-2022-12-06 11:45:31.230 JST [29592] LOG:  database system was shut down at 2022-12-06 11:45:31 JST
-2022-12-06 11:45:31.234 JST [29588] LOG:  database system is ready to accept connections
--bash-4.2$
-~~~
-
-### ③log_timezone = 'UTC', timezone = 'Asia/Tokyo' 
-ログファイル作成時間、ログの中身の時間の表示も異常
-~~~
--bash-4.2$ pwd
-/postgre/pgdata/log
--bash-4.2$ ls -la
-total 36
-drwx------  2 postgres postgres  167 Dec  6 02:57 .
-drwx------ 20 postgres postgres 4096 Dec  6 02:57 ..
--rw-------  1 postgres postgres  186 Dec  6 02:57 postgresql-20221206.log
--rw-------  1 postgres postgres 4368 Dec  2 11:51 postgresql-Fri.log
--rw-------  1 postgres postgres 3800 Nov 14 09:38 postgresql-Mon.log
--rw-------  1 postgres postgres 2522 Nov 10 08:45 postgresql-Thu.log
--rw-------  1 postgres postgres  774 Dec  6 02:45 postgresql-Tue.log
--rw-------  1 postgres postgres 5661 Nov  9 08:58 postgresql-Wed.log
-
--bash-4.2$ cat postgresql-20221206.log
-2022-12-06 02:57:57.831 UTC [1835] LOG:  database system was shut down at 2022-12-06 02:57:57 UTC
-2022-12-06 02:57:57.835 UTC [1831] LOG:  database system is ready to accept connections
--bash-4.2$
-~~~
-
-### ④log_timezone = 'Asia/Tokyo', timezone = 'Asia/Tokyo' 
-ログファイル作成時間が異常だが、ログの中身の時間の表示は正常
-~~~
--bash-4.2$ pwd
-/postgre/pgdata/log
--bash-4.2$ ls -la
-total 36
-drwx------  2 postgres postgres  167 Dec  6 03:02 .
-drwx------ 20 postgres postgres 4096 Dec  6 03:02 ..
--rw-------  1 postgres postgres  186 Dec  6 03:02 postgresql-20221206.log
--rw-------  1 postgres postgres 4368 Dec  2 11:51 postgresql-Fri.log
--rw-------  1 postgres postgres 3800 Nov 14 09:38 postgresql-Mon.log
--rw-------  1 postgres postgres 2522 Nov 10 08:45 postgresql-Thu.log
--rw-------  1 postgres postgres  774 Dec  6 02:45 postgresql-Tue.log
--rw-------  1 postgres postgres 5661 Nov  9 08:58 postgresql-Wed.log
 
 -bash-4.2$ cat postgresql-20221206.log
 2022-12-06 12:02:51.227 JST [3697] LOG:  database system was shut down at 2022-12-06 12:02:51 JST
 2022-12-06 12:02:51.231 JST [3693] LOG:  database system is ready to accept connections
 -bash-4.2$
 ~~~
+
+insert文
+
