@@ -171,7 +171,8 @@ cat postgresql-20221206.logコマンドで確認
 /postgre/pgdata/log/postgresql-20221206.log
 
 <details>
-＜summary＞-bash-4.2$ cat postgresql-20221206.log＜/summary＞
+~~~
+-bash-4.2$ cat postgresql-20221206.log
 [2022-12-06 16:02:17.055 JST]   25699 [1] LOG:  database system was shut down at 2022-12-06 16:02:16 JST
 [2022-12-06 16:02:17.059 JST]   25694 [7] LOG:  database system is ready to accept connections
 [2022-12-06 16:02:50.814 JST] postgres postgres 25906 [1] LOG:  statement: SET DateStyle=ISO; SET client_min_messages=notice; SELECT set_config('bytea_output','hex',false) FROM pg_settings WHERE name = 'bytea_output'; SET client_encoding='UNICODE';
@@ -322,6 +323,7 @@ cat postgresql-20221206.logコマンドで確認
         ORDER BY att.attnum
 [2022-12-06 16:03:04.471 JST] postgres postgres 25906 [11] LOG:  statement: SELECT oid, pg_catalog.format_type(oid, NULL) AS typname FROM pg_catalog.pg_type WHERE oid IN (1043, 1043, 1082, 1114, 1184) ORDER BY oid;
 -bash-4.2$
+~~~
 <details>
 
 
