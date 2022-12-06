@@ -183,6 +183,30 @@ cat postgresql-20221206.logコマンドで確認
 
 ## postgresql.confのパラメータcheckpoint_timeoutとarchive_timeoutの動作確認
 ### ①checkpoint_timeout = 5min, #archive_timeout = 0
+5分経ってもアーカイブファイルが増えない
+/postgre/wal_archive
+~~~
+-bash-4.2$ ls -la
+total 20
+drwx------ 2 postgres postgres    38 Dec  6 08:15 .
+drwxr-xr-x 6 root     root        75 Dec  2 10:10 ..
+-rw------- 1 postgres postgres 16440 Dec  6 08:15 000000040000000000000011　
+-bash-4.2$ ls -la
+total 20
+drwx------ 2 postgres postgres    38 Dec  6 08:15 .
+drwxr-xr-x 6 root     root        75 Dec  2 10:10 ..
+-rw------- 1 postgres postgres 16440 Dec  6 08:15 000000040000000000000011
+~~~
 
 ### ②checkpoint_timeout = 5min, archive_timeout = 5min
-
+5分経ったらアーカイブファイルが増える
+/postgre/wal_archive
+~~~
+-bash-4.2$ ls -la
+total 60
+drwx------ 2 postgres postgres   102 Dec  6 08:51 .
+drwxr-xr-x 6 root     root        75 Dec  2 10:10 ..
+-rw------- 1 postgres postgres 17864 Dec  6 08:41 000000040000000000000016
+-rw------- 1 postgres postgres 17450 Dec  6 08:46 000000040000000000000017
+-rw------- 1 postgres postgres 17952 Dec  6 08:51 000000040000000000000018
+~~~
