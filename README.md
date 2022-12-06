@@ -128,23 +128,23 @@ drwx------ 20 postgres postgres 4096 Dec  6 02:45 ..
 ~~~
 
 ## postgresql.confのパラメータlog_line_prefix検証
-### ①log_line_prefix = '%m [%p] '
+### ①log_line_prefix = '%m [%p] '　デフォルト
 ログ
 ~~~
--bash-4.2$ cat postgresql-20221206.log
 2022-12-06 12:02:51.227 JST [3697] LOG:  database system was shut down at 2022-12-06 12:02:51 JST
 2022-12-06 12:02:51.231 JST [3693] LOG:  database system is ready to accept connections
--bash-4.2$
 ~~~
 ### ②log_line_prefix = '[%t] %u %d %p [%l] '
 ログ
 ~~~
-
+[2022-12-06 15:39:32 JST]   17370 [1] LOG:  database system was shut down at 2022-12-06 15:39:32 JST
+[2022-12-06 15:39:32 JST]   17366 [7] LOG:  database system is ready to accept connections
 ~~~
 ### ③log_line_prefix = '[%m] %u %d %p [%l] '
-ログ
+ログ　ミリ秒が表示された
 ~~~
-
+[2022-12-06 15:42:43.319 JST]   18603 [1] LOG:  database system was shut down at 2022-12-06 15:42:43 JST
+[2022-12-06 15:42:43.323 JST]   18594 [7] LOG:  database system is ready to accept connections
 ~~~
 
 ## postgresql.confのパラメータlog_timezoneとtimezone検証
