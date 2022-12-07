@@ -47,21 +47,6 @@ sudo chmod 700 /postgre/wal_archive
 sudo chown postgres:postgres /postgre/wal_archive
 ~~~
 
-### 案①ベースバックアップもアーカイブログも、current同士を使ってリカバリする手順
-/postgre/wal_archive/current/000000040000000000000019 ※直近
-/postgre/wal_archive/current/000000040000000000000018
-/postgre/wal_archive/20221205/000000040000000000000017 ※
-/postgre/wal_archive/20221205/000000040000000000000016
-/postgre/wal_archive/20221128/000000040000000000000015 ※
-/postgre/wal_archive/20221128/000000040000000000000014
-### 案②ベースバックアップはcurrentで、アーカイブログは混在でリカバリ。
-/postgre/wal_archive/current/000000040000000000000019 ※直近
-/postgre/wal_archive/current/000000040000000000000018
-/postgre/wal_archive/20221205/000000040000000000000017 ※
-/postgre/wal_archive/20221205/000000040000000000000016
-/postgre/wal_archive/20221128/000000040000000000000015 ※
-/postgre/wal_archive/20221128/000000040000000000000014
-
 ## backup
 ~~~
 #backupディレクトリを作成
@@ -95,7 +80,7 @@ rm -rf /postgre/pgdata/pg_wal
 ~~~
 ５．最新WALログの復旧
 ~~~
-cp -p /postgre/pgdata.bak/pg_wal/ /postgre/pgdata/pg_wal/
+cp - /postgre/pgdata.bak/pg_wal/ /postgre/pgdata/pg_wal/
 ~~~
 ６．リカバリ設定 vi /postgre/pgdata/recovery.conf
 ~~~
@@ -224,4 +209,34 @@ drwxr-xr-x 6 root     root        75 Dec  2 10:10 ..
 -rw------- 1 postgres postgres 17864 Dec  6 08:41 000000040000000000000016
 -rw------- 1 postgres postgres 17450 Dec  6 08:46 000000040000000000000017
 -rw------- 1 postgres postgres 17952 Dec  6 08:51 000000040000000000000018
+~~~
+
+## バックアップ検証
+### basebackup
+【ディレクト階層イメージ】
+~~~
+/postgre/basebackup/current/base.tar.gz
+/postgre/basebackup/current/pg_wal.tar.gz
+/postgre/basebackup/20221204/base.tar.gz
+/postgre/basebackup/20221204/pg_wal.tar.gz
+/postgre/basebackup/20221127/base.tar.gz
+/postgre/basebackup/20221127/pg_wal.tar.gz
+~~~
+### 案①ベースバックアップもアーカイブログも、current同士を使ってリカバリする手順
+~~~
+/postgre/wal_archive/current/000000040000000000000019 ※直近
+/postgre/wal_archive/current/000000040000000000000018
+/postgre/wal_archive/20221204/000000040000000000000017 ※1週間
+/postgre/wal_archive/20221204/000000040000000000000016
+/postgre/wal_archive/20221127/000000040000000000000015 ※2週間
+/postgre/wal_archive/20221127/000000040000000000000014
+~~~
+### 案②ベースバックアップはcurrentで、アーカイブログは混在でリカバリ。
+~~~
+/postgre/wal_archive/000000040000000000000019 ※直近
+/postgre/wal_archive/000000040000000000000018
+/postgre/wal_archive/000000040000000000000017 ※1週間
+/postgre/wal_archive/000000040000000000000016
+/postgre/wal_archive/000000040000000000000015 ※2週間
+/postgre/wal_archive/000000040000000000000014
 ~~~
