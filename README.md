@@ -212,31 +212,38 @@ drwxr-xr-x 6 root     root        75 Dec  2 10:10 ..
 ~~~
 
 ## バックアップ検証
-### basebackup
-【ディレクト階層イメージ】
+### ディレクトリ状態
 ~~~
-/postgre/basebackup/current/base.tar.gz
-/postgre/basebackup/current/pg_wal.tar.gz
-/postgre/basebackup/20221204/base.tar.gz
-/postgre/basebackup/20221204/pg_wal.tar.gz
-/postgre/basebackup/20221127/base.tar.gz
-/postgre/basebackup/20221127/pg_wal.tar.gz
+[ec2-user@ip-172-31-2-81 ~]$ sudo ls -la /postgre/basebackup/
+total 0
+drwx------ 6 postgres postgres 69 Dec  7 17:20 .
+drwxr-xr-x 6 root     root     75 Dec  2 19:10 ..
+drwx------ 2 postgres postgres 46 Dec  7 15:40 20221120
+drwx------ 2 postgres postgres 46 Dec  7 17:15 20221127
+drwx------ 2 postgres postgres 46 Dec  7 17:20 20221204
+drwx------ 2 postgres postgres 46 Dec  7 17:24 current
+
+-bash-4.2$ pwd
+/postgre/wal_archive
+-bash-4.2$ ls -la
+total 204
+drwx------ 2 postgres postgres  4096 Dec  8 10:21 .
+drwxr-xr-x 6 root     root        75 Dec  7 19:04 ..
+-rw------- 1 postgres postgres 17924 Dec  7 17:13 000000040000000000000020
+-rw------- 1 postgres postgres 16466 Dec  7 17:13 000000040000000000000021
+-rw------- 1 postgres postgres 16461 Dec  7 17:13 000000040000000000000022
+-rw------- 1 postgres postgres   199 Dec  7 17:13 000000040000000000000022.00000028.backup
+-rw------- 1 postgres postgres 18002 Dec  7 17:18 000000040000000000000023
+-rw------- 1 postgres postgres 16392 Dec  7 17:19 000000040000000000000024
+-rw------- 1 postgres postgres 16466 Dec  7 17:19 000000040000000000000025
+-rw------- 1 postgres postgres   200 Dec  7 17:19 000000040000000000000025.00000028.backup
+-rw------- 1 postgres postgres 25198 Dec  7 17:24 000000040000000000000026
+-rw------- 1 postgres postgres 16471 Dec  7 17:24 000000040000000000000027
+-rw------- 1 postgres postgres 16468 Dec  7 17:24 000000040000000000000028
+-rw------- 1 postgres postgres   197 Dec  7 17:24 000000040000000000000028.00000028.backup
 ~~~
-### 案①ベースバックアップもアーカイブログも、current同士を使ってリカバリする手順
-~~~
-/postgre/wal_archive/current/000000040000000000000019 ※直近
-/postgre/wal_archive/current/000000040000000000000018
-/postgre/wal_archive/20221204/000000040000000000000017 ※1週間
-/postgre/wal_archive/20221204/000000040000000000000016
-/postgre/wal_archive/20221127/000000040000000000000015 ※2週間
-/postgre/wal_archive/20221127/000000040000000000000014
-~~~
-### 案②ベースバックアップはcurrentで、アーカイブログは混在でリカバリ。
-~~~
-/postgre/wal_archive/000000040000000000000019 ※直近
-/postgre/wal_archive/000000040000000000000018
-/postgre/wal_archive/000000040000000000000017 ※1週間
-/postgre/wal_archive/000000040000000000000016
-/postgre/wal_archive/000000040000000000000015 ※2週間
-/postgre/wal_archive/000000040000000000000014
-~~~
+### ①currentのバックアップを使用してリストア作業 
+【結果】直近のDB状態でリストアされました。
+
+### ②20221127のバックアップを使用してリストア作業 
+【結果】直近のDB状態でリストアされました。
