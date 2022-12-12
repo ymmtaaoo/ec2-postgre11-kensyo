@@ -247,3 +247,50 @@ drwxr-xr-x 6 root     root        75 Dec  7 19:04 ..
 
 ### ②20221127のバックアップを使用してリストア作業 
 【結果】直近のDB状態でリストアされました。
+
+## WALログ削除コマンド検証
+・コマンドの第二引数の指定した.backupファイルより古いWALログが削除される。
+・古い.backupファイルは削除されない。
+■WALログ削除コマンド
+~~~
+/usr/pgsql-11/bin/pg_archivecleanup /postgre/wal_archive 000000040000000000000025.00000028.backup
+~~~
+■WALログ削除コマンド実行前の/postgre/wal_archiveのディレクトリ状態
+~~~
+-bash-4.2$ ls -la
+total 228
+drwx------ 4 postgres postgres  4096 Dec 12 17:30 .
+drwxr-xr-x 6 root     root        75 Dec  8 10:24 ..
+-rw------- 1 postgres postgres 17924 Dec 12 17:30 000000040000000000000020
+-rw------- 1 postgres postgres 16466 Dec 12 17:30 000000040000000000000021
+-rw------- 1 postgres postgres 16461 Dec 12 17:30 000000040000000000000022
+-rw------- 1 postgres postgres   199 Dec 12 17:30 000000040000000000000022.00000028.backup
+-rw------- 1 postgres postgres 18002 Dec 12 17:30 000000040000000000000023
+-rw------- 1 postgres postgres 16392 Dec 12 17:30 000000040000000000000024
+-rw------- 1 postgres postgres 16466 Dec 12 17:30 000000040000000000000025
+-rw------- 1 postgres postgres   200 Dec 12 17:30 000000040000000000000025.00000028.backup
+-rw------- 1 postgres postgres 25198 Dec 12 17:30 000000040000000000000026
+-rw------- 1 postgres postgres 16471 Dec 12 17:30 000000040000000000000027
+-rw------- 1 postgres postgres 16468 Dec 12 17:30 000000040000000000000028
+-rw------- 1 postgres postgres   197 Dec 12 17:30 000000040000000000000028.00000028.backup
+-rw------- 1 postgres postgres 16487 Dec 12 09:10 00000007000000000000002A
+drwx------ 2 postgres postgres     6 Dec  8 10:39 20221127
+drwx------ 2 postgres postgres  4096 Dec 12 17:27 bk
+~~~
+■WALログ削除コマンド実行後の/postgre/wal_archiveのディレクトリ状態
+~~~
+-bash-4.2$ ls -la
+total 124
+drwx------ 4 postgres postgres   336 Dec 12 18:41 .
+drwxr-xr-x 6 root     root        75 Dec  8 10:24 ..
+-rw------- 1 postgres postgres   199 Dec 12 17:30 000000040000000000000022.00000028.backup
+-rw------- 1 postgres postgres 16466 Dec 12 17:30 000000040000000000000025
+-rw------- 1 postgres postgres   200 Dec 12 17:30 000000040000000000000025.00000028.backup
+-rw------- 1 postgres postgres 25198 Dec 12 17:30 000000040000000000000026
+-rw------- 1 postgres postgres 16471 Dec 12 17:30 000000040000000000000027
+-rw------- 1 postgres postgres 16468 Dec 12 17:30 000000040000000000000028
+-rw------- 1 postgres postgres   197 Dec 12 17:30 000000040000000000000028.00000028.backup
+-rw------- 1 postgres postgres 16487 Dec 12 09:10 00000007000000000000002A
+drwx------ 2 postgres postgres     6 Dec  8 10:39 20221127
+drwx------ 2 postgres postgres  4096 Dec 12 17:27 bk
+~~~
