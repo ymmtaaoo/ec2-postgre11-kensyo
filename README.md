@@ -250,7 +250,9 @@ drwxr-xr-x 6 root     root        75 Dec  7 19:04 ..
 
 ## WALログ削除コマンド検証
 ・コマンドの第二引数の指定した.backupファイルより古いWALログが削除される。
+
 ・古い.backupファイルは削除されない。
+
 ■WALログ削除コマンド
 ~~~
 /usr/pgsql-11/bin/pg_archivecleanup /postgre/wal_archive 000000040000000000000025.00000028.backup
