@@ -297,3 +297,30 @@ drwxr-xr-x 6 root     root        75 Dec  8 10:24 ..
 drwx------ 2 postgres postgres     6 Dec  8 10:39 20221127
 drwx------ 2 postgres postgres  4096 Dec 12 17:27 bk
 ~~~
+
+## opensslでパスワード暗号化検証
+https://colabmix.co.jp/tech-blog/password_encrypt_shell/
+https://www.tohoho-web.com/ex/openssl.html#encrypt
+https://kaworu.jpn.org/security/OpenSSL%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%82%92%E7%94%A8%E3%81%84%E3%81%9F%E5%85%B1%E9%80%9A%E9%8D%B5%E6%9A%97%E5%8F%B7
+
+~~~
+#PostgreSQLのパスワードの共通鍵を作成
+nano /home/ec2-user/decrypt_db_key
+123456789012345678901234567890ab
+
+#PostgreSQLのパスワード平文を共通鍵を使って暗号化し、暗号化済パスワードファイルに出力する。
+echo "｛postgreSQLのパスワード平文｝" | openssl enc -e -aes-256-cbc -kfile /home/ec2-user/decrypt_db_key -out /home/ec2-user/encrypted_db_password
+
+#共通鍵ファイルと暗号化済パスワードファイルの権限を修正
+chmod 600 /home/ec2-user/decrypt_db_key
+sudo chown postgres:postgres /home/ec2-user/decrypt_db_key
+chmod 600 /home/ec2-user/encrypted_db_password
+sudo chown postgres:postgres /home/ec2-user/encrypted_db_password
+
+~~~
+### 暗号・復号確認
+~~~
+[ec2-user@ip-172-31-2-81 ~]$ echo "test" | openssl enc -e -aes-256-cbc -kfile /home/ec2-user/decrypt_db_key -out /home/ec2-user/encrypted_db_password
+[ec2-user@ip-172-31-2-81 ~]$ openssl enc -d -aes-256-cbc -kfile /home/ec2-user/decrypt_db_key -in /home/ec2-user/encrypted_db_password
+test
+~~~
