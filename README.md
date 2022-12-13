@@ -305,22 +305,18 @@ https://kaworu.jpn.org/security/OpenSSL%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%8
 ### 共通鍵・暗号化済パスワードファイル作成手順
 ~~~
 #PostgreSQLのパスワードの共通鍵を作成
-nano /home/ec2-user/decrypt_db_key
+nano /home/postgres/decrypt_db_key
 123456789012345678901234567890ab
-
 #PostgreSQLのパスワード平文を共通鍵を使って暗号化し、暗号化済パスワードファイルに出力する。
-echo "｛postgreSQLのパスワード平文｝" | openssl enc -e -aes-256-cbc -kfile /home/ec2-user/decrypt_db_key -out /home/ec2-user/encrypted_db_password
-
+echo "｛postgreSQLのパスワード平文｝" | openssl enc -e -aes-256-cbc -kfile /home/postgres/decrypt_db_key -out /home/postgres/encrypted_db_password
 #共通鍵ファイルと暗号化済パスワードファイルの権限を修正
-chmod 600 /home/ec2-user/decrypt_db_key
-sudo chown postgres:postgres /home/ec2-user/decrypt_db_key
-chmod 600 /home/ec2-user/encrypted_db_password
-sudo chown postgres:postgres /home/ec2-user/encrypted_db_password
+chmod 600 /home/postgres/decrypt_db_key /home/postgres/encrypted_db_password
+chown postgres:postgres /home/postgres/decrypt_db_key /home/postgres/encrypted_db_password
 
 ~~~
 ### 暗号・復号確認
 ~~~
-[ec2-user@ip-172-31-2-81 ~]$ echo "test" | openssl enc -e -aes-256-cbc -kfile /home/ec2-user/decrypt_db_key -out /home/ec2-user/encrypted_db_password
-[ec2-user@ip-172-31-2-81 ~]$ openssl enc -d -aes-256-cbc -kfile /home/ec2-user/decrypt_db_key -in /home/ec2-user/encrypted_db_password
-test
+-bash-4.2$ echo "｛postgreSQLのパスワード平文｝" | openssl enc -e -aes-256-cbc -kfile /home/postgres/decrypt_db_key -out /home/postgres/encrypted_db_password
+-bash-4.2$ openssl enc -d -aes-256-cbc -kfile /home/postgres/decrypt_db_key -in /home/postgres/encrypted_db_password
+｛postgreSQLのパスワード平文｝
 ~~~
