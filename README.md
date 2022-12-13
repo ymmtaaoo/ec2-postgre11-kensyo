@@ -50,12 +50,13 @@ sudo chown postgres:postgres /postgre/wal_archive
 ## backup
 ~~~
 #backupディレクトリを作成
-sudo mkdir /postgre/basebackup
-sudo chmod 700 /postgre/basebackup
-sudo chown postgres:postgres /postgre/basebackup
+sudo mkdir /postgre/basebackup/yyyymmdd
+sudo chmod 700 /postgre/basebackup/yyyymmdd
+sudo chown postgres:postgres /postgre/basebackup/yyyymmdd
 
 sudo su - postgres
-pg_basebackup -D /postgre/basebackup/ -Ft -z -Xs -P -U postgres
+pg_basebackup -D /postgre/basebackup/yyyymmdd -Ft -z -Xs -P -U postgres
+
 ~~~
 
 ## restore
