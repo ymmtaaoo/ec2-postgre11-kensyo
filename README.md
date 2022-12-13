@@ -302,7 +302,7 @@ drwx------ 2 postgres postgres  4096 Dec 12 17:27 bk
 https://colabmix.co.jp/tech-blog/password_encrypt_shell/
 https://www.tohoho-web.com/ex/openssl.html#encrypt
 https://kaworu.jpn.org/security/OpenSSL%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%82%92%E7%94%A8%E3%81%84%E3%81%9F%E5%85%B1%E9%80%9A%E9%8D%B5%E6%9A%97%E5%8F%B7
-
+### 共通鍵・暗号化済パスワードファイル作成手順
 ~~~
 #PostgreSQLのパスワードの共通鍵を作成
 nano /home/ec2-user/decrypt_db_key
