@@ -322,11 +322,32 @@ chown postgres:postgres /home/postgres/decrypt_db_key /home/postgres/encrypted_d
 ~~~
 
 ## WEBログの再起動要否」の検証
-
-logback動作確認用のアプリ
-別ポートで起動して同じファイル（1階層上）にログ出力します。
+logback動作確認用のアプリ。別ポートで起動して同じファイル（1階層上）にログ出力します。
 https://github.com/namickey/postgresql/tree/main/web_log_1
+
 https://github.com/namickey/postgresql/tree/main/web_log_2
 ![image](https://user-images.githubusercontent.com/52730146/208034760-9bbaf62e-edc5-4bcd-be34-98ee63fe5596.png)
+### ①jarとログファイルを以下のディレクトリ構成で配置
+~~~
+jarファイル
+/home/ec2-user/log1/web-0.0.1-SNAPSHOT.jar
+/home/ec2-user/log2/web-0.0.1-SNAPSHOT.jar
+ログファイル
+/home/ec2-user/log/alog.log
+/home/ec2-user/log/blog.log
+~~~
+### ②2つのアプリを起動
+~~~
+java -jar /home/ec2-user/log1/web-0.0.1-SNAPSHOT.jar
+java -jar /home/ec2-user/log2/web-0.0.1-SNAPSHOT.jar
+~~~
 
+### ③アプリ起動中に/home/ec2-user/logをリネームして/home/ec2-user/log_20221216
+画面をリロードすると、エラーにならず/home/ec2-user/log_20221216ディレクトリのログに書き込まれた。
+
+### ④アプリ起動中に/home/ec2-user/logディレクトリとログ2ファイル作成
+画面をリロードすると、/home/ec2-user/log_20221216ディレクトリのログに書き込まれた。
+
+### ⑤アプリ再起動
+画面をリロードすると、/home/ec2-user/logディレクトリのログに書き込まれた。
 
