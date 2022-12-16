@@ -320,3 +320,13 @@ chown postgres:postgres /home/postgres/decrypt_db_key /home/postgres/encrypted_d
 -bash-4.2$ openssl enc -d -aes-256-cbc -kfile /home/postgres/decrypt_db_key -in /home/postgres/encrypted_db_password
 ｛postgreSQLのパスワード平文｝
 ~~~
+
+## WEBログの再起動要否」の検証
+
+logback動作確認用のアプリ
+別ポートで起動して同じファイル（1階層上）にログ出力します。
+https://github.com/namickey/postgresql/tree/main/web_log_1
+https://github.com/namickey/postgresql/tree/main/web_log_2
+![image](https://user-images.githubusercontent.com/52730146/208034647-b9cf66db-b75f-424e-88f4-91f1314e5711.png)
+
+
