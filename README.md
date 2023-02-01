@@ -351,8 +351,8 @@ java -jar /home/ec2-user/log2/web-0.0.1-SNAPSHOT.jar
 ### ⑤アプリ再起動
 画面をリロードすると、/home/ec2-user/logディレクトリのログに書き込まれた。
 
-■postgresql.logのローテーション
-###1 /etc/logrotate.d/postgresqlファイルを作成
+## ■postgresql.logのローテーション
+### 1 /etc/logrotate.d/postgresqlファイルを作成
 ~~~
 nano /etc/logrotate.d/postgresql
 
@@ -372,7 +372,7 @@ https://hackers-high.com/linux/man-jp-logrotate/
 
 ~~~
 
-###2 動作確認
+### 2 動作確認
 ~~~
 #postgresqlを停止
 sudo systemctl stop postgresql-11
