@@ -351,3 +351,35 @@ java -jar /home/ec2-user/log2/web-0.0.1-SNAPSHOT.jar
 ### ⑤アプリ再起動
 画面をリロードすると、/home/ec2-user/logディレクトリのログに書き込まれた。
 
+■postgresql.logのローテーション
+###1 /etc/logrotate.d/postgresqlファイルを作成
+~~~
+nano /etc/logrotate.d/postgresql
+
+以下内容を設定
+/postgre/pgdata/log/*.log {
+  daily
+  dateext
+  nocompress
+  copytruncate
+  missingok
+  create 0600 postgres postgres
+  rotate 30
+}
+
+参考：logrotate.dのオプション
+https://hackers-high.com/linux/man-jp-logrotate/
+
+~~~
+
+###2 動作確認
+~~~
+#postgresqlを停止
+sudo systemctl stop postgresql-11
+
+#touch -t YYMMDDhhmmコマンドで更新日付を変える
+touch -t 2301311212 /postgre/pgdata/log/postgresql.log
+
+強制的にログローテを実行する
+logrotate -f /etc/logrotate.d/postgresql
+~~~
